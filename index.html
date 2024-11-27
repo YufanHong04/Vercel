@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step 1: Personal Information</title>
+  <link rel="stylesheet" href="input.css">
+</head>
+<body>
+  <div class="form-container">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress" style="width: 33%;"></div>
+      <div class="step active">1</div>
+      <div class="step">2</div>
+      <div class="step">3</div>
+    </div>
+
+    <form action="step2.html">
+      <h2>Step 1: Personal Information</h2>
+      <label for="fullName">Full Name:</label>
+      <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" name="dob" required>
+
+      <button type="submit">Next</button>
+    </form>
+    <script>
+      const form = document.querySelector('form');
+    
+      // Retrieve existing data from localStorage or create an empty object
+      const kycData = JSON.parse(localStorage.getItem('kycData')) || {};
+    
+      // Populate inputs with previously saved values (for navigation back and forth)
+      Array.from(form.elements).forEach((input) => {
+        if (input.name && kycData[input.name]) {
+          input.value = kycData[input.name];
+        }
+      });
+    
+      // Save data to localStorage on form submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default submission
+        Array.from(form.elements).forEach((input) => {
+          if (input.name) {
+            kycData[input.name] = input.value;
+          }
+        });
+        localStorage.setItem('kycData', JSON.stringify(kycData));
+    
+        // Redirect to the next page
+        const nextPage = form.getAttribute('action');
+        window.location.href = nextPage;
+      });
+    </script>
+    
+  </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step 2: Address Information</title>
+  <link rel="stylesheet" href="input.css">
+</head>
+<body>
+  <div class="form-container">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress" style="width: 66%;"></div>
+      <div class="step completed">1</div>
+      <div class="step active">2</div>
+      <div class="step">3</div>
+    </div>
+
+    <form action="step3.html">
+      <h2>Step 2: Address Information</h2>
+      <label for="address">Residential Address:</label>
+      <input type="text" id="address" name="address" placeholder="Enter your address" required>
+
+      <label for="country">Country:</label>
+      <select id="country" name="country" required>
+        <option value="">Select your country</option>
+        <option value="United States">United States</option>
+        <option value="Canada">Canada</option>
+        <option value="United Kingdom">United Kingdom</option>
+      </select>
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+      <button type="submit">Next</button>
+    </form>
+    <script>
+      const form = document.querySelector('form');
+    
+      // Retrieve existing data from localStorage or create an empty object
+      const kycData = JSON.parse(localStorage.getItem('kycData')) || {};
+    
+      // Populate inputs with previously saved values (for navigation back and forth)
+      Array.from(form.elements).forEach((input) => {
+        if (input.name && kycData[input.name]) {
+          input.value = kycData[input.name];
+        }
+      });
+    
+      // Save data to localStorage on form submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default submission
+        Array.from(form.elements).forEach((input) => {
+          if (input.name) {
+            kycData[input.name] = input.value;
+          }
+        });
+        localStorage.setItem('kycData', JSON.stringify(kycData));
+    
+        // Redirect to the next page
+        const nextPage = form.getAttribute('action');
+        window.location.href = nextPage;
+      });
+    </script>
+    
+  </div>
+</body>
+</html>

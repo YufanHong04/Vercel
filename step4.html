@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submission Successful</title>
+  <link rel="stylesheet" href="input.css">
+</head>
+<body>
+  <div class="form-container">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress" style="width: 100%;"></div>
+      <div class="step completed">1</div>
+      <div class="step completed">2</div>
+      <div class="step completed">3</div>
+    </div>
+
+    <!-- Success Message -->
+    <h2>Submission Successful!</h2>
+    <p>Thank you for completing the form. Below is a summary of the information you provided:</p>
+
+    <!-- User Details Summary -->
+    <div class="summary">
+      <h3>Your Details:</h3>
+      <ul id="summaryList">
+        <!-- Dynamically filled -->
+      </ul>
+    </div>
+
+    <button onclick="restart()">Start Over</button>
+  </div>
+
+  <script>
+    const summaryList = document.getElementById('summaryList');
+    const storedData = JSON.parse(localStorage.getItem('kycData'));
+  
+    // Populate the summary with stored data
+    if (storedData) {
+      for (const [key, value] of Object.entries(storedData)) {
+        const li = document.createElement('li');
+        li.textContent = `${key}: ${value || 'Not Provided'}`;
+        summaryList.appendChild(li);
+      }
+    }
+  
+    // Function to clear localStorage and navigate to Step 1
+    function restart() {
+      localStorage.removeItem('kycData'); // Clear only the form data
+      window.location.href = 'index.html'; // Redirect to the first step
+    }
+  </script>
+  
+</body>
+</html>

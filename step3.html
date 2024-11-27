@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step 3: Verification Documents</title>
+  <link rel="stylesheet" href="input.css">
+</head>
+<body>
+  <div class="form-container">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress" style="width: 100%;"></div>
+      <div class="step completed">1</div>
+      <div class="step completed">2</div>
+      <div class="step active">3</div>
+    </div>
+
+    <form action="step4.html">
+      <h2>Step 3: Verification Documents</h2>
+      <label for="idType">Government ID Type:</label>
+      <select id="idType" name="idType" required>
+        <option value="">Select ID type</option>
+        <option value="Passport">Passport</option>
+        <option value="Driver's License">Driver's License</option>
+        <option value="National ID">National ID</option>
+      </select>
+
+      <label for="govID">Upload Government ID:</label>
+      <input type="file" id="govID" name="govID" accept=".pdf, .jpg, .png" required>
+
+      <label for="proofOfAddress">Proof of Address Document (Optional):</label>
+      <input type="file" id="proofOfAddress" name="proofOfAddress" accept=".pdf, .jpg, .png">
+
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      const form = document.querySelector('form');
+    
+      // Retrieve existing data from localStorage or create an empty object
+      const kycData = JSON.parse(localStorage.getItem('kycData')) || {};
+    
+      // Populate inputs with previously saved values (for navigation back and forth)
+      Array.from(form.elements).forEach((input) => {
+        if (input.name && kycData[input.name]) {
+          input.value = kycData[input.name];
+        }
+      });
+    
+      // Save data to localStorage on form submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default submission
+        Array.from(form.elements).forEach((input) => {
+          if (input.name) {
+            kycData[input.name] = input.value;
+          }
+        });
+        localStorage.setItem('kycData', JSON.stringify(kycData));
+    
+        // Redirect to the next page
+        const nextPage = form.getAttribute('action');
+        window.location.href = nextPage;
+      });
+    </script>
+    
+  </div>
+</body>
+</html>
